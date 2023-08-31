@@ -37,6 +37,17 @@ const getUserByid = async (req, res) => {
   res.json(response.rows);
 };
 
+const updateUser = async (req, res) => {
+  const id = req.params.id;
+
+  const { name, email } = req.body;
+  const response = await pool.query(
+    "UPDATE users SET name = $1, email = $2 WHERE id = $3",
+    [name, email, id]
+  );
+  res.json("User Updated Successfully");
+};
+
 const deleteUser = async (req, res) => {
   const id = req.params.id;
   const response = await pool.query("DELETE FROM users WHERE id = $1", [id]);
@@ -49,4 +60,5 @@ module.exports = {
   createUser,
   getUserByid,
   deleteUser,
+  updateUser,
 };
